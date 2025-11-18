@@ -5,9 +5,9 @@ description: Run various Node.js scripts inside one Add-on
 startup: application
 boot: auto
 options:
-  script: hello.js
+  SCRIPT: hello.js
 schema:
-  script: str
+  SCRIPT: str
 arch:
   - aarch64
   - amd64
