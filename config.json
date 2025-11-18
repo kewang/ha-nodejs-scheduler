@@ -1,7 +1,7 @@
 {
   "name": "Node.js Runner",
   "version": "1.0.0",
-  "slug": "local_nodejs_runner",
+  "slug": "nodejs_runner",
   "description": "Run various Node.js scripts inside one Add-on",
   "startup": "application",
   "boot": "auto",
