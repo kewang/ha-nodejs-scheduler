@@ -1,7 +1,7 @@
 name: "Node.js Script Scheduler"
-version: "1.0.1"
+version: "1.0.2"
 slug: "node_scheduler"
-description: "Run custom Node.js scripts on a schedule with ENV support."
+description: "Run custom Node.js scripts on a schedule."
 arch:
   - aarch64
   - amd64
@@ -11,5 +11,8 @@ map:
   - config:rw
 options:
   scripts: []
-# 將 schema 設為 false，讓 HA 直接提供 YAML 編輯器，避免格式驗證錯誤
-schema: false
+schema:
+  scripts:
+    - path: str
+      cron: str
+      env_vars: str?
