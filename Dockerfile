@@ -1,21 +1,21 @@
-# 不再使用 BUILD_FROM (HA Base Image)，直接鎖定官方 Node.js 映像檔
 FROM node:20-alpine
 
-# 設定環境變數 (確保 Log 能夠即時輸出)
 ENV FORCE_COLOR=1
-
-# 設定工作目錄
 WORKDIR /app
 
-# 複製 package.json 並安裝依賴
+# 1. 先安裝主程式 (runner.js) 的依賴
 COPY package.json /app/
 RUN npm install
 
-# 複製主程式
+# 2. 複製主程式
 COPY runner.js /app/
 
-# 新增：複製內建腳本資料夾到容器內
+# 3. 複製腳本資料夾
 COPY app_scripts /app/app_scripts/
 
-# 直接啟動 Node (跳過 S6 init 系統)
+# === 關鍵修改 ===
+# 4. 進入 app_scripts 資料夾並安裝它的依賴
+#    --production flag 可以避免安裝不必要的開發工具
+RUN cd /app/app_scripts && npm install --production
+
 CMD [ "node", "runner.js" ]
