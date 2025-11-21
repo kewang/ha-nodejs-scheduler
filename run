@@ -1,5 +1,0 @@
-#!/usr/bin/with-contenv bashio
-
-echo "Starting Node.js Scheduler via S6..."
-cd /app
-exec node runner.js
