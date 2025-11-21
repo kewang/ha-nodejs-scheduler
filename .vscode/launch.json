@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Launch power_outage",
       "runtimeExecutable": "/home/kewang/.nvm/versions/node/v20.18.1/bin/node",
-      "program": "${workspaceFolder}/scripts/power_outage.js",
+      "program": "${workspaceFolder}/app_scripts/power_outage.js",
       "console": "integratedTerminal"
     }
   ]
