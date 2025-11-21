@@ -6,7 +6,7 @@ const fs = require("fs").promises;
 const URL =
   "https://service.taipower.com.tw/branch/d101/xcnotice?xsmsid=0M242581316312033070";
 
-const OUTAGE_KEYWORD = "秀峰路";
+const OUTAGE_KEYWORD = "八連路";
 const TW_YEAR_OFFSET = 1911;
 
 const STATUS = {
