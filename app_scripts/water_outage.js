@@ -6,8 +6,8 @@ const path = require("path");
 const URL = "https://web.water.gov.tw/wateroffapi/openData/export/json";
 
 const OUTAGE_CITY = process.env.OUTAGE_CITY || "基隆市";
-const OUTAGE_DISTRICT = process.env.OUTAGE_DISTRICT || "安樂區";
-const OUTAGE_AREA = process.env.OUTAGE_AREA || "武隆街";
+const OUTAGE_DISTRICT = process.env.OUTAGE_DISTRICT || "中正區";
+const OUTAGE_AREA = process.env.OUTAGE_AREA || "和豐街";
 
 const STATUS = {
   STATUS_NO_OUTAGE: 1,
@@ -33,8 +33,6 @@ const OUTPUT_FILE = `${OUTPUT_PATH}/${BASENAME}.json`;
   try {
     const jsonData = (await axios.get(URL)).data;
 
-    console.log(JSON.stringify(jsonData));
-
     let foundDate;
 
     const foundRecord = jsonData.find(
@@ -54,12 +52,14 @@ const OUTPUT_FILE = `${OUTPUT_PATH}/${BASENAME}.json`;
         foundRecord.降壓原因 === "[]"
           ? ""
           : foundRecord.降壓原因.slice(1, -1).trim();
+      const caseUrl = `https://web.water.gov.tw/wateroffmap/map/view/${foundRecord.案件編號}`;
 
       foundDate = moment(foundRecord.案件日期時間, "YYYY-MM-DD HH:mm:ss");
 
       await fileWrite({
         status: STATUS.STATUS_OUTAGE,
         reason: [停水原因, 降壓原因].filter(Boolean).join("；"),
+        url: caseUrl,
         updatedAt: moment().format(),
         date: foundDate.format("YYYY/MM/DD"),
       });
