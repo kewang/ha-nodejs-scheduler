@@ -10,10 +10,17 @@ const MQTT_PASS = process.env.MQTT_PASS || "";
  *
  * @param {string} id - 唯一的 ID (英文)，例如 'power_outage'
  * @param {string} name - 在 HA 顯示的名字，例如 '停電通知'
+ * @param {string} stateName - 狀態名稱，例如 'status'
  * @param {object} stateData - 資料物件，例如 { status: 'OK', date: '...' }
  * @param {string} icon - 圖示，例如 'mdi:flash'
  */
-const sendToHA = async (id, name, stateData, icon = "mdi:information") => {
+const sendToHA = async (
+  id,
+  name,
+  stateName,
+  stateData,
+  icon = "mdi:information"
+) => {
   let client;
 
   try {
@@ -35,13 +42,13 @@ const sendToHA = async (id, name, stateData, icon = "mdi:information") => {
       name: name,
       state_topic: stateTopic,
       icon: icon,
-      value_template: "{{ value_json.state }}",
+      value_template: `{{ value_json.${stateName} }}`,
       json_attributes_topic: stateTopic,
       device: {
         identifiers: [deviceId],
         name: `${name} Monitor`,
-        manufacturer: "NodeJS Addon",
-        model: "v1.0",
+        manufacturer: "nodejs scheduler",
+        model: "v1.0.0",
       },
     };
 

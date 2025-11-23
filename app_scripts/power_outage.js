@@ -10,10 +10,16 @@ const URL =
 const OUTAGE_KEYWORD = process.env.OUTAGE_KEYWORD || "和豐街";
 const TW_YEAR_OFFSET = 1911;
 
-const STATUS = {
+const STATUS_CODE = {
   STATUS_NO_OUTAGE: 1,
   STATUS_OUTAGE: 2,
   STATUS_ERROR: 3,
+};
+
+const STATUS = {
+  STATUS_NO_OUTAGE: "最近沒有停電",
+  STATUS_OUTAGE: "有停電通知",
+  STATUS_ERROR: "發生錯誤",
 };
 
 const BASENAME = path.basename(__filename, ".js");
@@ -21,7 +27,7 @@ const BASENAME = path.basename(__filename, ".js");
 (async () => {
   const sendMqtt = async (data) => {
     try {
-      await sendToHA(BASENAME, "停電通知", data);
+      await sendToHA(BASENAME, "停電通知", "statusCode", data);
     } catch (error) {
       console.error("MQTT 發送失敗", error);
     }
@@ -69,6 +75,7 @@ const BASENAME = path.basename(__filename, ".js");
     if (foundDate) {
       await sendMqtt({
         status: STATUS.STATUS_OUTAGE,
+        statusCode: STATUS_CODE.STATUS_OUTAGE,
         updatedAt: moment().format(),
         date: foundDate.format("YYYY/MM/DD"),
       });
@@ -77,6 +84,7 @@ const BASENAME = path.basename(__filename, ".js");
     } else {
       await sendMqtt({
         status: STATUS.STATUS_NO_OUTAGE,
+        statusCode: STATUS_CODE.STATUS_NO_OUTAGE,
         updatedAt: moment().format(),
       });
 
@@ -85,6 +93,7 @@ const BASENAME = path.basename(__filename, ".js");
   } catch (error) {
     await sendMqtt({
       status: STATUS.STATUS_ERROR,
+      statusCode: STATUS_CODE.STATUS_ERROR,
       updatedAt: moment().format(),
     });
 
