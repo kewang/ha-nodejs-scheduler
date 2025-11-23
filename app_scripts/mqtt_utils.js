@@ -14,8 +14,10 @@ const MQTT_PASS = process.env.MQTT_PASS || "";
  * @param {string} icon - 圖示，例如 'mdi:flash'
  */
 const sendToHA = async (id, name, stateData, icon = "mdi:information") => {
-  return new Promise(async (resolve, reject) => {
-    const client = await mqtt.connectAsync(MQTT_HOST, {
+  let client;
+
+  try {
+    client = await mqtt.connectAsync(MQTT_HOST, {
       username: MQTT_USER,
       password: MQTT_PASS,
     });
@@ -27,54 +29,46 @@ const sendToHA = async (id, name, stateData, icon = "mdi:information") => {
     const configTopic = `homeassistant/sensor/${deviceId}/config`;
     const stateTopic = `homeassistant/sensor/${deviceId}/state`;
 
-    client.on("connect", async () => {
-      // 1. 準備 Discovery 設定
-      // 這裡設定 "value_template" 讀取 json 中的 state 欄位作為主狀態
-      // "json_attributes_topic" 則會把整包 json 變成屬性
-      const discoveryPayload = {
-        unique_id: deviceId,
-        name: name,
-        state_topic: stateTopic,
-        icon: icon,
-        value_template: "{{ value_json.state }}",
-        json_attributes_topic: stateTopic,
-        device: {
-          identifiers: [deviceId],
-          name: `${name} Monitor`,
-          manufacturer: "NodeJS Addon",
-          model: "v1.0",
-        },
-      };
+    // 1. 準備 Discovery 設定
+    // 這裡設定 "value_template" 讀取 json 中的 state 欄位作為主狀態
+    // "json_attributes_topic" 則會把整包 json 變成屬性
+    const discoveryPayload = {
+      unique_id: deviceId,
+      name: name,
+      state_topic: stateTopic,
+      icon: icon,
+      value_template: "{{ value_json.state }}",
+      json_attributes_topic: stateTopic,
+      device: {
+        identifiers: [deviceId],
+        name: `${name} Monitor`,
+        manufacturer: "NodeJS Addon",
+        model: "v1.0",
+      },
+    };
 
-      // 2. 發送 Discovery (Retain=true 讓 HA 重啟後記得這個裝置)
-      console.log(`[Debug] 正在發送 Discovery Config 到: ${configTopic}`);
-      await client.publishAsync(configTopic, JSON.stringify(discoveryPayload), {
-        retain: true,
-      });
-      console.log(`[Debug] Discovery 發送完畢`);
-
-      // 3. 發送狀態
-      console.log(`[Debug] 正在發送 State 到: ${stateTopic}`);
-      console.log(`[Debug] 內容: ${JSON.stringify(stateData)}`);
-      await client.publishAsync(stateTopic, JSON.stringify(stateData), {
-        retain: true,
-      });
-      console.log(`[Debug] State 發送完畢`);
-
-      // 4. 結束連線
-      await client.endAsync();
-
-      return resolve();
+    // 2. 發送 Discovery (Retain=true 讓 HA 重啟後記得這個裝置)
+    console.log(`[Debug] 正在發送 Discovery Config 到: ${configTopic}`);
+    await client.publishAsync(configTopic, JSON.stringify(discoveryPayload), {
+      retain: true,
     });
+    console.log(`[Debug] Discovery 發送完畢`);
 
-    client.on("error", async (err) => {
-      console.error("[MQTT] Connection Error:", err);
-
-      await client.endAsync();
-
-      return reject(err);
+    // 3. 發送狀態
+    console.log(`[Debug] 正在發送 State 到: ${stateTopic}`);
+    console.log(`[Debug] 內容: ${JSON.stringify(stateData)}`);
+    await client.publishAsync(stateTopic, JSON.stringify(stateData), {
+      retain: true,
     });
-  });
+    console.log(`[Debug] State 發送完畢`);
+  } catch (error) {
+    console.error("[MQTT] Connection Error:", error);
+  } finally {
+    // 4. 結束連線
+    if (client && client.connected) {
+      await client.endAsync();
+    }
+  }
 };
 
 module.exports = { sendToHA };
