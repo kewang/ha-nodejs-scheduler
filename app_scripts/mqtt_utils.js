@@ -20,6 +20,8 @@ const sendToHA = async (id, name, stateData, icon = "mdi:information") => {
       password: MQTT_PASS,
     });
 
+    console.log(`[Debug] 連線成功！ Client ID: ${client.options.clientId}`);
+
     // 定義 Topic
     const deviceId = `node_scheduler_${id}`;
     const configTopic = `homeassistant/sensor/${deviceId}/config`;
@@ -45,14 +47,19 @@ const sendToHA = async (id, name, stateData, icon = "mdi:information") => {
       };
 
       // 2. 發送 Discovery (Retain=true 讓 HA 重啟後記得這個裝置)
+      console.log(`[Debug] 正在發送 Discovery Config 到: ${configTopic}`);
       await client.publishAsync(configTopic, JSON.stringify(discoveryPayload), {
         retain: true,
       });
+      console.log(`[Debug] Discovery 發送完畢`);
 
       // 3. 發送狀態
+      console.log(`[Debug] 正在發送 State 到: ${stateTopic}`);
+      console.log(`[Debug] 內容: ${JSON.stringify(stateData)}`);
       await client.publishAsync(stateTopic, JSON.stringify(stateData), {
         retain: true,
       });
+      console.log(`[Debug] State 發送完畢`);
 
       // 4. 結束連線
       await client.endAsync();
