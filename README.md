@@ -20,25 +20,34 @@
 
 ## 設定範例
 
-在 Add-on 設定頁面中，按照以下格式設定您的腳本：
+在 Add-on 設定頁面中，按照以下格式設定：
 
 ```yaml
+mqtt_host: "mqtt://core-mosquitto"
+mqtt_user: "your_mqtt_username"
+mqtt_pass: "your_mqtt_password"
 scripts:
   - path: app_scripts/power_outage.js
     cron: "0 8 * * *"
-    env_vars: '{"OUTAGE_KEYWORD":"和豐街","MQTT_HOST":"YOUR_MQTT_HOST","MQTT_USER":"YOUR_MQTT_USER","MQTT_PASS":"YOUR_MQTT_PASS"}'
+    env_vars: '{"OUTAGE_KEYWORD":"和豐街"}'
   - path: app_scripts/water_outage.js
     cron: "0 9 * * *"
-    env_vars: '{"OUTAGE_CITY":"基隆市","OUTAGE_DISTRICT":"中正區","OUTAGE_AREA":"和豐街","MQTT_HOST":"YOUR_MQTT_HOST","MQTT_USER":"YOUR_MQTT_USER","MQTT_PASS":"YOUR_MQTT_PASS"}'
+    env_vars: '{"OUTAGE_CITY":"基隆市","OUTAGE_DISTRICT":"中正區","OUTAGE_AREA":"和豐街"}'
 ```
 
 ### 設定參數說明
 
-- `path`: 腳本檔案路徑 (相對於 `/app` 目錄)
-- `cron`: Cron 排程表達式
-  - 格式: `秒 分 時 日 月 星期`
-  - 範例: `0 8 * * *` 表示每天早上 8:00 執行
-- `env_vars`: (選填) 環境變數，可以是 JSON 字串或物件格式
+**全域參數:**
+- `mqtt_host`：MQTT broker 位址 (預設: "mqtt://core-mosquitto")
+- `mqtt_user`：MQTT 使用者名稱
+- `mqtt_pass`：MQTT 密碼
+
+**腳本參數:**
+- `path`：腳本檔案路徑 (相對於 `/app` 目錄)
+- `cron`：Cron 排程表達式
+  - 格式：`秒 分 時 日 月 星期`
+  - 範例：`0 8 * * *` 表示每天早上 8:00 執行
+- `env_vars`：(選填) 腳本專屬的環境變數，可以是 JSON 字串或物件格式
 
 ### Cron 語法參考
 
@@ -66,9 +75,6 @@ scripts:
 
 **環境變數:**
 - `OUTAGE_KEYWORD`：要監控的街道名稱 (預設："和豐街")
-- `MQTT_HOST`：MQTT broker 位址 (預設："mqtt://core-mosquitto")
-- `MQTT_USER`：MQTT 使用者名稱
-- `MQTT_PASS`：MQTT 密碼
 
 **輸出到 HA:**
 - Entity：`sensor.node_scheduler_power_outage`
@@ -80,17 +86,14 @@ scripts:
 監控台灣自來水公司的停水公告，當指定區域有停水或降壓通知時，自動在 Home Assistant 建立 sensor。
 
 **環境變數:**
-- `OUTAGE_CITY`: 要監控的縣市 (預設: "基隆市")
-- `OUTAGE_DISTRICT`: 要監控的行政區 (預設: "中正區")
-- `OUTAGE_AREA`: 要監控的區域 (預設: "和豐街")
-- `MQTT_HOST`: MQTT broker 位址 (預設: "mqtt://core-mosquitto")
-- `MQTT_USER`: MQTT 使用者名稱
-- `MQTT_PASS`: MQTT 密碼
+- `OUTAGE_CITY`：要監控的縣市 (預設: "基隆市")
+- `OUTAGE_DISTRICT`：要監控的行政區 (預設: "中正區")
+- `OUTAGE_AREA`：要監控的區域 (預設: "和豐街")
 
 **輸出到 HA:**
-- Entity: `sensor.node_scheduler_water_outage`
-- 狀態: `1` (無停水) / `2` (有停水) / `3` (錯誤)
-- 屬性: 停水原因、停水日期、案件網址、更新時間等
+- Entity：`sensor.node_scheduler_water_outage`
+- 狀態：`1` (無停水) / `2` (有停水) / `3` (錯誤)
+- 屬性：停水原因、停水日期、案件網址、更新時間等
 
 ## 開發自己的腳本
 
