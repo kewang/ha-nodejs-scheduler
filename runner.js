@@ -93,7 +93,7 @@ if (
 
       child.stdout.on("data", (data) =>
         console.log(
-          `[${scriptName}:${new Date().toISOString()}] ${data
+          `[${scriptName} ${new Date().toISOString()}] ${data
             .toString()
             .trim()}`
         )
@@ -101,7 +101,7 @@ if (
 
       child.stderr.on("data", (data) =>
         console.error(
-          `[${scriptName} ERR:${new Date().toISOString()}] ${data
+          `[${scriptName} ERR ${new Date().toISOString()}] ${data
             .toString()
             .trim()}`
         )
