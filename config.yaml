@@ -10,8 +10,14 @@ startup: application
 map:
   - config:rw
 options:
+  mqtt_host: "mqtt://core-mosquitto"
+  mqtt_user: ""
+  mqtt_pass: ""
   scripts: []
 schema:
+  mqtt_host: str
+  mqtt_user: str
+  mqtt_pass: password
   scripts:
     - path: str
       cron: str
