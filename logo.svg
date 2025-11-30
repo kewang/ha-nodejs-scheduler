@@ -1,0 +1,17 @@
+<svg width="1200" height="500" viewBox="0 0 1200 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景 -->
+  <rect x="0" y="0" width="1200" height="500" fill="#202020"/>
+  
+  <!-- 左側裝飾圖形 -->
+  <path d="M150 100 L250 160 V280 L150 340 L50 280 V160 Z" fill="#689F63" opacity="0.9"/>
+  <circle cx="150" cy="220" r="50" stroke="white" stroke-width="10" fill="none"/>
+  <path d="M150 180 V220 L180 250" stroke="white" stroke-width="10" fill="none" stroke-linecap="round"/>
+  
+  <!-- 文字 -->
+  <text x="320" y="260" font-family="Arial, sans-serif" font-weight="bold" font-size="90" fill="white">Node.js</text>
+  <text x="320" y="360" font-family="Arial, sans-serif" font-weight="normal" font-size="70" fill="#AAAAAA">Script Scheduler</text>
+  
+  <!-- 右下角裝飾 -->
+  <rect x="1100" y="400" width="60" height="60" fill="#F7DF1E" rx="10"/>
+  <text x="1110" y="445" font-family="Arial, sans-serif" font-weight="bold" font-size="35" fill="black">JS</text>
+</svg>
