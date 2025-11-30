@@ -15,7 +15,7 @@
 
 點擊下方按鈕，直接將此 Repository 加入你的 Home Assistant：
 
-[![Open your Home Assistant instance and show the add-on store.](https://my-home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fkewang%2Fha-nodejs-scheduler)
+[![Open your Home Assistant instance and show the add-on store.](https://my.home-assistant.io/badges/supervisor_addon.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fkewang%2Fha-nodejs-scheduler)
 
 或者手動安裝：
 1. 複製網址: `https://github.com/kewang/ha-nodejs-scheduler`
