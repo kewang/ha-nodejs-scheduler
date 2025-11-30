@@ -20,7 +20,7 @@ const sendToHA = async (deviceId, deviceName, payload, sensors) => {
       password: MQTT_PASS,
     });
 
-    const baseTopic = `homeassistant/sensor/nodejs_scheduler/${deviceId}`;
+    const baseTopic = `homeassistant/sensor/nodejs_scheduler_${deviceId}`;
     const stateTopic = `${baseTopic}/state`;
 
     // 1. 迴圈：為每一個定義好的 Sensor 發送一張「身分證」
