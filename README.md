@@ -13,10 +13,13 @@
 
 ## 安裝方式
 
-1. 在 Home Assistant 中新增此 Add-on Repository
-2. 安裝 "Node.js Script Scheduler" Add-on
-3. 編輯 Add-on 設定檔 (參考下方設定範例)
-4. 啟動 Add-on
+點擊下方按鈕，直接將此 Repository 加入你的 Home Assistant：
+
+[![Open your Home Assistant instance and show the add-on store.](https://my-home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fkewang%2Fha-nodejs-scheduler)
+
+或者手動安裝：
+1. 複製網址: `https://github.com/kewang/ha-nodejs-scheduler`
+2. 進入 HA Add-on Store -> Repositories -> 貼上網址 -> Add
 
 ## 設定範例
 
