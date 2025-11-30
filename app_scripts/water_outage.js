@@ -21,6 +21,41 @@ const STATUS = {
   STATUS_ERROR: "發生錯誤",
 };
 
+const DEVICE_NAME = "停水通知";
+
+const SENSORS = [
+  {
+    sensorName: "停水日期",
+    stateName: "date",
+    icon: "mdi:calendar-alert",
+  },
+  {
+    sensorName: "狀態代碼",
+    stateName: "statusCode",
+    icon: "mdi:numeric",
+  },
+  {
+    sensorName: "狀態",
+    stateName: "status",
+    icon: "mdi:information-outline",
+  },
+  {
+    sensorName: "更新時間",
+    stateName: "updatedAt",
+    icon: "mdi:clock-outline",
+  },
+  {
+    sensorName: "原因",
+    stateName: "reason",
+    icon: "mdi:alert-circle-outline",
+  },
+  {
+    sensorName: "詳細網址",
+    stateName: "url",
+    icon: "mdi:web",
+  },
+];
+
 const BASENAME = path.basename(__filename, ".js");
 
 (async () => {
@@ -50,31 +85,46 @@ const BASENAME = path.basename(__filename, ".js");
 
       foundDate = moment(foundRecord.案件日期時間, "YYYY-MM-DD HH:mm:ss");
 
-      await sendToHA(BASENAME, "停水通知", "statusCode", {
-        status: STATUS.STATUS_OUTAGE,
-        statusCode: STATUS_CODE.STATUS_OUTAGE,
-        reason: [停水原因, 降壓原因].filter(Boolean).join("；"),
-        url: caseUrl,
-        updatedAt: moment().format(),
-        date: foundDate.format("YYYY/MM/DD"),
-      });
+      await sendToHA(
+        BASENAME,
+        DEVICE_NAME,
+        {
+          status: STATUS.STATUS_OUTAGE,
+          statusCode: STATUS_CODE.STATUS_OUTAGE,
+          reason: [停水原因, 降壓原因].filter(Boolean).join("；"),
+          url: caseUrl,
+          updatedAt: moment().format(),
+          date: foundDate.format("YYYY/MM/DD"),
+        },
+        SENSORS
+      );
 
       console.log(foundDate.format("YYYY/MM/DD"));
     } else {
-      await sendToHA(BASENAME, "停水通知", "statusCode", {
-        status: STATUS.STATUS_NO_OUTAGE,
-        statusCode: STATUS_CODE.STATUS_NO_OUTAGE,
-        updatedAt: moment().format(),
-      });
+      await sendToHA(
+        BASENAME,
+        DEVICE_NAME,
+        {
+          status: STATUS.STATUS_NO_OUTAGE,
+          statusCode: STATUS_CODE.STATUS_NO_OUTAGE,
+          updatedAt: moment().format(),
+        },
+        SENSORS
+      );
 
       console.log("最近沒有停水");
     }
   } catch (error) {
-    await sendToHA(BASENAME, "停水通知", "statusCode", {
-      status: STATUS.STATUS_ERROR,
-      statusCode: STATUS_CODE.STATUS_ERROR,
-      updatedAt: moment().format(),
-    });
+    await sendToHA(
+      BASENAME,
+      DEVICE_NAME,
+      {
+        status: STATUS.STATUS_ERROR,
+        statusCode: STATUS_CODE.STATUS_ERROR,
+        updatedAt: moment().format(),
+      },
+      SENSORS
+    );
 
     console.error(error);
     console.error("發生錯誤");
