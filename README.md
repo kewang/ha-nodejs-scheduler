@@ -76,7 +76,7 @@ scripts:
 監控台電網站的停電公告，當指定區域有停電通知時，自動在 Home Assistant 建立 sensor。
 
 **環境變數:**
-- `OUTAGE_KEYWORD`：要監控的街道名稱 (預設："和豐街")
+- `OUTAGE_KEYWORD`：要監控的街道名稱
 
 **輸出到 HA:**
 - Entity：`sensor.node_scheduler_power_outage`
@@ -88,9 +88,9 @@ scripts:
 監控台灣自來水公司的停水公告，當指定區域有停水或降壓通知時，自動在 Home Assistant 建立 sensor。
 
 **環境變數:**
-- `OUTAGE_CITY`：要監控的縣市 (預設: "基隆市")
-- `OUTAGE_DISTRICT`：要監控的行政區 (預設: "中正區")
-- `OUTAGE_AREA`：要監控的區域 (預設: "和豐街")
+- `OUTAGE_CITY`：要監控的縣市
+- `OUTAGE_DISTRICT`：要監控的行政區
+- `OUTAGE_AREA`：要監控的區域
 
 **輸出到 HA:**
 - Entity：`sensor.node_scheduler_water_outage`
