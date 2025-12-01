@@ -1,5 +1,5 @@
 name: "Node.js Script Scheduler"
-version: "1.0.4"
+version: "1.0.5"
 slug: "node_scheduler"
 description: "Run custom Node.js scripts on a schedule."
 url: "https://github.com/kewang/ha-nodejs-scheduler"
@@ -11,14 +11,14 @@ startup: application
 map:
   - config:rw
 options:
-  mqtt_host: "mqtt://core-mosquitto"
+  mqtt_host: ""
   mqtt_user: ""
   mqtt_pass: ""
   scripts: []
 schema:
-  mqtt_host: str
-  mqtt_user: str
-  mqtt_pass: password
+  mqtt_host: str?
+  mqtt_user: str?
+  mqtt_pass: password?
   scripts:
     - path: str
       cron: str
