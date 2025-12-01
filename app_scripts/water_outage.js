@@ -5,9 +5,9 @@ const { sendToHA } = require("./mqtt_utils");
 
 const URL = "https://web.water.gov.tw/wateroffapi/openData/export/json";
 
-const OUTAGE_CITY = process.env.OUTAGE_CITY || "基隆市";
-const OUTAGE_DISTRICT = process.env.OUTAGE_DISTRICT || "中正區";
-const OUTAGE_AREA = process.env.OUTAGE_AREA || "和豐街";
+const OUTAGE_CITY = process.env.OUTAGE_CITY;
+const OUTAGE_DISTRICT = process.env.OUTAGE_DISTRICT;
+const OUTAGE_AREA = process.env.OUTAGE_AREA;
 
 const STATUS_CODE = {
   STATUS_NO_OUTAGE: 1,
