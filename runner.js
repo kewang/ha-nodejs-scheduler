@@ -8,8 +8,6 @@ const BASE_PATH = __dirname;
 const SUPERVISOR_TOKEN = process.env.SUPERVISOR_TOKEN;
 const SUPERVISOR_URL = "http://supervisor";
 
-console.log(`SUPERVISOR_TOKEN: ${SUPERVISOR_TOKEN}`);
-
 console.log("Starting Node.js Script Scheduler (v1.0.8)...");
 
 const getMqttConfig = async (manualOptions) => {
