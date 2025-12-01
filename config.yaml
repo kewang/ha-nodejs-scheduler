@@ -1,5 +1,5 @@
 name: "Node.js Script Scheduler"
-version: "1.0.7"
+version: "1.0.8"
 slug: "node_scheduler"
 description: "Run custom Node.js scripts on a schedule."
 url: "https://github.com/kewang/ha-nodejs-scheduler"
@@ -8,6 +8,8 @@ arch:
   - amd64
   - armv7
 startup: application
+services:
+  - "mqtt:need"
 map:
   - config:rw
 options:

@@ -10,7 +10,7 @@ const SUPERVISOR_URL = "http://supervisor";
 
 console.log(`SUPERVISOR_TOKEN: ${SUPERVISOR_TOKEN}`);
 
-console.log("Starting Node.js Script Scheduler (v1.0.7)...");
+console.log("Starting Node.js Script Scheduler (v1.0.8)...");
 
 const getMqttConfig = async (manualOptions) => {
   // 1. 如果使用者有手動設定，優先使用手動設定
