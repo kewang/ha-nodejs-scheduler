@@ -34,7 +34,6 @@ const sendToHA = async (deviceId, deviceName, payload, sensors) => {
         name: sensor.sensorName, // 日期
         state_topic: stateTopic, // ★ 大家聽同一個頻道
         value_template: `{{ value_json.${sensor.stateName} }}`, // ★ 抓取 JSON 裡不同的欄位
-        icon: sensor.icon,
         device: {
           identifiers: [`nodejs_scheduler_${deviceId}`], // 綁定同一個 Device
           name: deviceName,
@@ -42,6 +41,10 @@ const sendToHA = async (deviceId, deviceName, payload, sensors) => {
           model: "v1.0.0",
         },
       };
+
+      if (sensor.icon) {
+        discoveryPayload.icon = sensor.icon;
+      }
 
       console.log(`[Discovery] Registering ${sensor.stateName}...`);
 
