@@ -14,35 +14,43 @@ const DEVICE_NAME = "水質檢測";
 const SENSORS = [
   {
     sensorName: "自由有效餘氯",
-    stateName: "自由有效餘氯",
+    stateName: "freeChlorine",
+    icon: "mdi:water-check",
   },
   {
     sensorName: "濁度",
-    stateName: "濁度",
+    stateName: "turbidity",
+    icon: "mdi:water-opacity",
   },
   {
     sensorName: "pH值",
-    stateName: "pH值",
+    stateName: "phValue",
+    icon: "mdi:ph",
   },
   {
     sensorName: "總硬度",
-    stateName: "總硬度",
+    stateName: "totalHardness",
+    icon: "mdi:water-plus",
   },
   {
     sensorName: "硝酸鹽氮",
-    stateName: "硝酸鹽氮",
+    stateName: "nitrateNitrogen",
+    icon: "mdi:molecule",
   },
   {
     sensorName: "總菌落數",
-    stateName: "總菌落數",
+    stateName: "totalBacteria",
+    icon: "mdi:bacteria",
   },
   {
     sensorName: "大腸桿菌群",
-    stateName: "大腸桿菌群",
+    stateName: "coliformBacteria",
+    icon: "mdi:bacteria-outline",
   },
   {
     sensorName: "發布日期",
-    stateName: "發布日期",
+    stateName: "publishDate",
+    icon: "mdi:calendar-clock",
   },
 ];
 
@@ -104,5 +112,7 @@ const BASENAME = path.basename(__filename, ".js");
     console.log(`[${BASENAME}] Fetched data:`, stateObj);
 
     await sendToHA(BASENAME, DEVICE_NAME, stateObj, SENSORS);
-  } catch (error) {}
+  } catch (error) {
+    console.error(`[${BASENAME}] Error:`, error);
+  }
 })();
