@@ -1,9 +1,11 @@
 const mqtt = require("mqtt");
+const path = require("path");
 
 // 從環境變數讀取設定，若無則使用預設值
 const MQTT_HOST = process.env.MQTT_HOST || "mqtt://core-mosquitto";
 const MQTT_USER = process.env.MQTT_USER || "";
 const MQTT_PASS = process.env.MQTT_PASS || "";
+const { version } = require(path.join(__dirname, "..", "package.json"));
 
 /**
  * @param {string} deviceId - 裝置唯一 ID (如 power_outage)
@@ -38,7 +40,7 @@ const sendToHA = async (deviceId, deviceName, payload, sensors) => {
           identifiers: [`nodejs_scheduler_${deviceId}`], // 綁定同一個 Device
           name: deviceName,
           manufacturer: "nodejs scheduler",
-          model: "v1.0.0",
+          model: `v${version}`,
         },
       };
 
