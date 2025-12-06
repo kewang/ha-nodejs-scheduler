@@ -1,6 +1,5 @@
 {
   "name": "app_scripts",
-  "version": "1.0.0",
   "main": "power_outage.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

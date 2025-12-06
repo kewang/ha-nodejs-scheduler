@@ -7,8 +7,9 @@ const OPTIONS_PATH = "/data/options.json";
 const BASE_PATH = __dirname;
 const SUPERVISOR_TOKEN = process.env.SUPERVISOR_TOKEN;
 const SUPERVISOR_URL = "http://supervisor";
+const { version } = require("./package.json");
 
-console.log("Starting Node.js Script Scheduler (v1.0.8)...");
+console.log(`Starting Node.js Script Scheduler (v${version})...`);
 
 const getMqttConfig = async (manualOptions) => {
   // 1. 如果使用者有手動設定，優先使用手動設定

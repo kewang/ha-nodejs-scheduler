@@ -1,8 +1,12 @@
 {
   "name": "ha-node-scheduler",
-  "version": "1.0.0",
+  "version": "1.0.9",
   "description": "Home Assistant Add-on",
   "main": "runner.js",
+  "scripts": {
+    "sync-version": "node sync-version.js",
+    "version": "npm run sync-version && git add config.yaml"
+  },
   "dependencies": {
     "node-cron": "^3.0.3"
   }
