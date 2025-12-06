@@ -1,6 +1,6 @@
 {
   "name": "ha-node-scheduler",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "Home Assistant Add-on",
   "main": "runner.js",
   "scripts": {
