@@ -1,5 +1,5 @@
 name: "Node.js Script Scheduler"
-version: "1.0.12"
+version: "1.0.13"
 slug: "node_scheduler"
 description: "Run custom Node.js scripts on a schedule."
 url: "https://github.com/kewang/ha-nodejs-scheduler"
