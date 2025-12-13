@@ -8,7 +8,7 @@
 - ✅ 支援多個腳本同時排程
 - ✅ 可為每個腳本設定獨立的環境變數
 - ✅ 透過 MQTT Discovery 自動整合 Home Assistant
-- ✅ 內建停電、停水、水質檢測通知範例腳本
+- ✅ 內建停電、停水、水質檢測通知腳本
 - ✅ 支援 aarch64、amd64、armv7 等多種架構
 
 ## 安裝方式
@@ -34,7 +34,7 @@
 scripts:
   - path: app_scripts/power_outage.js
     cron: "0 8 * * *"
-    env_vars: '{"OUTAGE_KEYWORD":"新豐街"}'
+    env_vars: '{"POWER_STATION_NAME":"基隆區營業處","POWER_STATION_AREA":"基隆市中正區","OUTAGE_KEYWORD":"新豐街"}'
   - path: app_scripts/water_outage.js
     cron: "0 9 * * *"
     env_vars: '{"OUTAGE_CITY":"基隆市","OUTAGE_DISTRICT":"中正區","OUTAGE_AREA":"新豐街"}'
@@ -74,19 +74,34 @@ scripts:
 - `*/30 * * * *` - 每 30 分鐘
 - `0 12 * * 1-5` - 週一到週五中午 12:00
 
-## 內建範例腳本
+## 內建腳本
 
 ### 1. 停電通知 (`power_outage.js`)
 
 監控台電網站的停電公告，當指定區域有停電通知時，自動在 Home Assistant 建立 sensor。
 
 **環境變數:**
-- `OUTAGE_KEYWORD`：要監控的街道名稱
+- `POWER_STATION_NAME`：營業處名稱（例如：基隆區營業處）
+- `POWER_STATION_AREA`：營業處地區（例如：基隆市中正區）
+- `OUTAGE_KEYWORD`：要監控的街道名稱（例如：新豐街）
+
+**參考資料:**
+- 營業處清單請參考 `app_scripts/assets/power_station.json`
 
 **輸出到 HA:**
-- Entity：`sensor.node_scheduler_power_outage`
-- 狀態：`1` (無停電) / `2` (有停電) / `3` (錯誤)
-- 屬性：停電日期、更新時間等
+
+主要狀態 Sensor：
+- `sensor.node_scheduler_power_outage_statusCode`：狀態代碼（`1` = 無停電 / `2` = 有停電 / `3` = 錯誤）
+
+其他 Sensors：
+- `sensor.node_scheduler_power_outage_station`：營業處名稱
+- `sensor.node_scheduler_power_outage_phone`：聯絡電話
+- `sensor.node_scheduler_power_outage_address`：營業處地址
+- `sensor.node_scheduler_power_outage_url`：停電公告網址
+- `sensor.node_scheduler_power_outage_date`：停電日期（格式：YYYY/MM/DD）
+- `sensor.node_scheduler_power_outage_status`：狀態文字（最近沒有停電 / 有停電通知 / 發生錯誤）
+- `sensor.node_scheduler_power_outage_updatedAt`：更新時間（ISO 格式）
+- `sensor.node_scheduler_power_outage_description`：停電描述
 
 ### 2. 停水通知 (`water_outage.js`)
 
@@ -98,20 +113,40 @@ scripts:
 - `OUTAGE_AREA`：要監控的區域
 
 **輸出到 HA:**
-- Entity：`sensor.node_scheduler_water_outage`
-- 狀態：`1` (無停水) / `2` (有停水) / `3` (錯誤)
-- 屬性：停水原因、停水日期、案件網址、更新時間等
+
+主要狀態 Sensor：
+- `sensor.node_scheduler_water_outage_statusCode`：狀態代碼（`1` = 無停水 / `2` = 有停水 / `3` = 錯誤）
+
+其他 Sensors：
+- `sensor.node_scheduler_water_outage_date`：停水日期（格式：YYYY/MM/DD）
+- `sensor.node_scheduler_water_outage_status`：狀態文字（最近沒有停水 / 有停水通知 / 發生錯誤）
+- `sensor.node_scheduler_water_outage_updatedAt`：更新時間（ISO 格式）
+- `sensor.node_scheduler_water_outage_reason`：停水或降壓原因
+- `sensor.node_scheduler_water_outage_url`：案件詳細網址
 
 ### 3. 水質檢測 (`water_quality.js`)
 
 監控台灣自來水公司的淨水場水質檢測資料，定期更新指定淨水場的水質數據。
 
 **環境變數:**
-- `STATION_ID`：淨水場 ID（詳細 ID 列表請參考 `app_scripts/assets/water_quality_station.json`）
+- `STATION_ID`：淨水場 ID
+
+**參考資料:**
+- 淨水場 ID 列表請參考 `app_scripts/assets/water_quality_station.json`
 
 **輸出到 HA:**
-- Entity：`sensor.node_water_quality_name`、`sensor.node_water_quality_address`、`sensor.node_water_quality_freeChlorine` 等
-- 屬性：淨水場名稱、地址、自由有效餘氯、濁度、pH值、總硬度、硝酸鹽氮、總菌落數、大腸桿菌群、發布日期
+
+所有 Sensors：
+- `sensor.node_water_quality_name`：淨水場名稱
+- `sensor.node_water_quality_address`：淨水場地址
+- `sensor.node_water_quality_freeChlorine`：自由有效餘氯（單位：mg/L）
+- `sensor.node_water_quality_turbidity`：濁度（單位：NTU）
+- `sensor.node_water_quality_phValue`：pH值
+- `sensor.node_water_quality_totalHardness`：總硬度（單位：mg/L）
+- `sensor.node_water_quality_nitrateNitrogen`：硝酸鹽氮（單位：mg/L）
+- `sensor.node_water_quality_totalBacteria`：總菌落數
+- `sensor.node_water_quality_coliformBacteria`：大腸桿菌群
+- `sensor.node_water_quality_publishDate`：發布日期（格式：YYYY-MM-DD）
 
 ## 開發自己的腳本
 
@@ -212,10 +247,11 @@ scripts:
 └── app_scripts/           # 腳本資料夾
     ├── package.json       # 腳本依賴
     ├── mqtt_utils.js      # MQTT 工具函式
-    ├── power_outage.js    # 停電通知範例
-    ├── water_outage.js    # 停水通知範例
-    ├── water_quality.js   # 水質檢測範例
+    ├── power_outage.js    # 停電通知
+    ├── water_outage.js    # 停水通知
+    ├── water_quality.js   # 水質檢測
     └── assets/            # 參考資料
+        ├── power_station.json          # 台電營業處列表
         └── water_quality_station.json  # 淨水場 ID 列表
 ```
 
