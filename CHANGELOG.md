@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.18] - 2025-12-22
+
+### Added
+- 水質檢測腳本的數值型 Sensor 現在支援 `state_class` 和 `unit_of_measurement` 屬性
+  - 自由有效餘氯：新增測量單位 `mg/L` 和 `state_class: measurement`
+  - 濁度：新增測量單位 `NTU` 和 `state_class: measurement`
+  - pH值：新增 `state_class: measurement`
+  - 總硬度：新增測量單位 `mg/L` 和 `state_class: measurement`
+  - 硝酸鹽氮：新增測量單位 `mg/L` 和 `state_class: measurement`
+
+### Changed
+- `mqtt_utils.js` 現在支援傳遞 `unitOfMeasurement`、`stateClass` 和 `deviceClass` 屬性到 Home Assistant MQTT 自動發現配置
+
+### Fixed
+- 修正水質檢測數值欄位在 Home Assistant 中顯示為文字而非數值的問題
+- 數值型 Sensor 現在可以正確地：
+  - 顯示測量單位
+  - 在圖表中使用
+  - 用於數值比較和自動化規則
+
+### Improved
+- 提升水質檢測 Sensor 的可用性，數值欄位現在能被 Home Assistant 正確識別為測量值類型
+
 ## [1.0.17] - 2025-12-13
 
 ### Changed
